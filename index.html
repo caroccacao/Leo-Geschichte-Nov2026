@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>Mittelalter-Training Klasse 7</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: one reading column; a sticky tab strip switches between five quizzes; each question is a bordered "Pergamentkarte" only where it needs to stand apart. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#1d2730; --muted:#5b6872; --line:#d5dde2;
+  --accent:#2b4c8c; --accent-soft:#e3eaf7; --gold:#a4741c;
+  --ok:#2f7a45; --ok-soft:#e2f2e6; --bad:#b23a32; --bad-soft:#f8e3e1;
+  --display:"Vollkorn", Georgia, "Times New Roman", serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131a20; --surface:#1b242c; --ink:#e4eaee; --muted:#9aa8b2; --line:#2e3a44;
+  --accent:#8eaee8; --accent-soft:#22324d; --gold:#e0b45a;
+  --ok:#6cc58a; --ok-soft:#1d3426; --bad:#ee8a82; --bad-soft:#3d2120; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131a20; --surface:#1b242c; --ink:#e4eaee; --muted:#9aa8b2; --line:#2e3a44;
+  --accent:#8eaee8; --accent-soft:#22324d; --gold:#e0b45a;
+  --ok:#6cc58a; --ok-soft:#1d3426; --bad:#ee8a82; --bad-soft:#3d2120; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2rem}
+h2{font-size:1.5rem;margin-bottom:.4rem}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.lead{color:var(--muted);margin:.5rem 0 0}
+header{display:grid;gap:.25rem;margin-bottom:1.2rem}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;margin-bottom:1.4rem}
+nav button{flex:0 0 auto;font:600 .92rem var(--body);padding:.45rem .8rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+nav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+nav button .s{font-variant-numeric:tabular-nums;opacity:.8;font-weight:400;margin-left:.3rem}
+.intro{color:var(--muted);margin:0 0 1.2rem}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+.q .num{font-size:.8rem;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.q .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-left:.4rem}
+.q p.qt{margin:.25rem 0 .7rem;font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:.6rem;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.55rem .75rem;cursor:pointer;width:100%}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .k{font-weight:700;color:var(--muted);min-width:1.2rem}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:.7rem}
+.btn{font:600 .95rem var(--body);padding:.5rem .95rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+input[type=text],select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.45rem .6rem}
+input[type=text]{min-width:0;flex:1 1 200px}
+textarea{width:100%;min-height:110px;resize:vertical}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.fb{margin-top:.7rem;padding:.6rem .8rem;border-radius:8px;font-size:.95rem}
+.fb.ok{background:var(--ok-soft);border-left:4px solid var(--ok)}
+.fb.no{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.fb.info{background:var(--accent-soft);border-left:4px solid var(--accent)}
+.fb b.v{display:block;margin-bottom:.15rem}
+.order-item{display:flex;gap:.6rem;align-items:center;padding:.35rem 0}
+.order-item select{flex:0 0 auto}
+.score{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:1.6rem 0 0;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline}
+.score .big{font-family:var(--display);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.score .hint{color:var(--muted);font-size:.92rem;flex-basis:100%}
+.model{white-space:normal}
+.model ul{margin:.3rem 0 .2rem;padding-left:1.2rem}
+.grade{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+.selfrate{display:flex;gap:6px;flex-wrap:wrap;margin-top:.6rem}
+.selfrate button{font:600 .85rem var(--body);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.selfrate button.on{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+footer{color:var(--muted);font-size:.88rem;margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .18s ease-out}@keyframes pop{from{transform:translateY(-3px);opacity:.4}}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Geschichte · Klasse 7 · Arbeit am Do, 26.11.2026</span>
+    <h1>Lebenswelten und Herrschaft im Mittelalter</h1>
+    <p class="lead">Fünf Übungsrunden zur Checkliste: Fachbegriffe, Gesellschaft und König, Land · Burg · Kloster, Stadt, und zum Schluss eine Probearbeit mit offenen Aufgaben. Antworten werden sofort geprüft; jede Antwort hat eine Erklärung.</p>
+  </header>
+  <nav id="tabs" role="tablist"></nav>
+  <main id="panel"></main>
+  <div id="score"></div>
+  <footer>
+    Grundlage: Checkliste von Frau Denecke, Arbeitsblätter „Stadt im Mittelalter“, „Lübeck“, „Kloster im Mittelalter“ (Westermann Praxis Geschichte 2/2023) und „Warum baute man Burgen?“ (planet schule). Die Buchseiten „Geschichte &amp; Du“ S. 24–27 und 36–39 lagen nicht vor; Grundherrschaft, Lehnswesen, Ständegesellschaft und Reisekönigtum sind nach dem üblichen Stoff der 7. Klasse ergänzt.<br>
+    Notenhinweis: Die Prozent-Einschätzung ist nur eine grobe Orientierung, keine offizielle Notentabelle.
+  </footer>
+</div>
+
+<script>
+const QUIZZES = [
+{ id:"begriffe", title:"1 · Fachbegriffe", short:"Begriffe",
+  intro:"Checkliste Punkt 1: Kenne die Fachbegriffe. Erst Auswahl, dann aus dem Kopf schreiben. Für eine 1,3 musst du die Begriffe nicht nur erkennen, sondern selbst erklären können.",
+  qs:[
+  {t:"mc", q:"Ein Adliger, ein Bischof oder ein Kloster besitzt Land und gibt es Bauern zur Bewirtschaftung. Die Bauern liefern Abgaben und leisten Dienste, der Herr gewährt Schutz. Wie heißt diese Ordnung?", o:["Lehnswesen","Grundherrschaft","Reisekönigtum","Ständegesellschaft"], a:1, ex:"Grundherrschaft = Herrschaft über Land und die Menschen, die darauf arbeiten. Grundherr gibt Land und Schutz, Bauern geben Abgaben und Frondienste."},
+  {t:"mc", q:"Der König vergibt Land oder Ämter an einen Adligen. Dafür schwört der Adlige Treue und leistet Kriegsdienst. Das nennt man …", o:["Grundherrschaft","Frondienst","Lehnswesen","Zehnt"], a:2, ex:"Lehnswesen: Lehnsherr (z. B. König) gibt ein Lehen, der Vasall (Lehnsmann) verspricht Treue, Rat und Hilfe, vor allem Kriegsdienst. Das Lehen bleibt Eigentum des Herrn, es wird nur „geliehen“."},
+  {t:"mc", q:"Was ist ein Frondienst?", o:["Steuer in Geld an den König","Unbezahlte Arbeit der Bauern auf dem Land des Grundherrn","Kriegsdienst des Ritters für den König","Gebet der Mönche für die Bauern"], a:1, ex:"„Fron“ ist ein altes Wort für „Herr“. Frondienst = Herrendienst: Bauern mussten an bestimmten Tagen ohne Lohn für den Grundherrn arbeiten (pflügen, ernten, Fuhren fahren, Holz schlagen)."},
+  {t:"mc", q:"Was ist ein Fronhof?", o:["Der Hof des Grundherrn, Mittelpunkt der Grundherrschaft, oft von einem Verwalter (Meier) geleitet","Ein Gasthaus für Kaufleute an der Straße","Der Innenhof einer Burg","Der Marktplatz einer Stadt"], a:0, ex:"Der Fronhof (Herrenhof) war das Zentrum der Grundherrschaft. Hierhin brachten die Bauern ihre Abgaben, und von hier aus wurde das Herrenland (Salland) mit Frondiensten bewirtschaftet."},
+  {t:"mc", q:"Das Wort „Kloster“ kommt vom lateinischen „claustrum“. Was bedeutet es?", o:["Gotteshaus","abgeschlossener Raum","Ort der Arbeit","heiliger Berg"], a:1, ex:"claustrum = abgeschlossener Raum. Mönche und Nonnen lebten abgeschieden von der Welt (Klausur), um Gott nahe zu sein."},
+  {t:"mc", q:"Der König hatte keine feste Hauptstadt, sondern zog mit seinem Hof von Pfalz zu Pfalz. Wie nennt man diese Herrschaftsform?", o:["Absolutismus","Reisekönigtum","Lehnswesen","Wanderkaisertum"], a:1, ex:"Reisekönigtum: Der König regierte, indem er persönlich durch das Reich reiste."},
+  {t:"mc", q:"Welche Aussage beschreibt die Ständegesellschaft richtig?", o:["Jeder konnte durch Fleiß in einen höheren Stand aufsteigen.","Die Menschen gehörten durch ihre Geburt zu einem Stand; man glaubte, diese Ordnung sei von Gott gewollt.","Alle Menschen hatten die gleichen Rechte, nur unterschiedliche Berufe.","Die Stände wurden jedes Jahr vom König neu verteilt."], a:1, ex:"In der Ständegesellschaft bestimmte die Geburt den Platz im Leben. Die Ordnung galt als gottgewollt, ein Aufstieg war kaum möglich (am ehesten über die Kirche)."},
+  {t:"mc", q:"Was ist eine Pfalz?", o:["Eine Burg eines Ritters","Ein Königshof, in dem der reisende König mit seinem Gefolge wohnte und regierte","Ein Kloster für Nonnen","Ein Stadtteil der Handwerker"], a:1, ex:"Pfalzen (von lat. palatium = Palast) waren über das Reich verteilte Königshöfe mit Saal, Kapelle und Wirtschaftsgebäuden, z. B. Aachen, Goslar oder Ingelheim."},
+  {t:"mc", q:"Wie nennt man die Gemeinschaft aller Mönche (oder Nonnen) eines Klosters?", o:["Konvent","Kapitel des Kaisers","Gefolge","Zunft"], a:0, ex:"Konvent = Gesamtheit der Mönche oder Nonnen eines Klosters. (Auch das Gebäude, in dem sie wohnen, heißt manchmal so.)"},
+  {t:"fill", q:"Menschen, die nicht Mönch oder Nonne waren, aber im oder beim Kloster arbeiteten und den Mönchen halfen, nennt man ___.", acc:["laien","laie","laienbrüder"], ex:"Laien. Mönche und Nonnen konnten viele alltägliche Dinge nicht selbst tun und brauchten deshalb Hilfe von Laien."},
+  {t:"fill", q:"Der Mann, der ein Lehen bekommt und dafür Treue schwört, heißt Vasall oder ___mann.", acc:["lehns","lehnsmann","lehens","lehensmann"], ex:"Lehnsmann (oder Vasall). Der Geber heißt Lehnsherr."},
+  {t:"fill", q:"Bauern, die an das Land ihres Grundherrn gebunden waren und nicht einfach wegziehen durften, nennt man ___ (Tipp: kommt von „hören“ = gehorchen).", acc:["hörige","hoerige","die hörigen","hörigen","hörig"], ex:"Hörige. Leibeigene waren noch unfreier: Sie gehörten ihrem Herrn persönlich. Freie Bauern gab es auch, aber sie waren eine Minderheit."},
+  {t:"fill", q:"Das freiwillige Leben in Verzicht, Armut und strenger Disziplin, um Christus nachzueifern, nennt man ___.", acc:["askese"], ex:"Askese. Mönche und Nonnen lehnten weltliche Genüsse ab."},
+  {t:"fill", q:"Die reichen Kaufmannsfamilien an der Spitze einer mittelalterlichen Stadt, die im Rat saßen, hießen ___.", acc:["patrizier","die patrizier","patriziat"], ex:"Patrizier, die „Väter der Stadt“. Sie hatten ihren Reichtum oft durch Handel erworben und bestimmten im Rat über die Stadt."},
+  ]},
+{ id:"gesellschaft", title:"2 · Gesellschaft & König", short:"Gesellschaft",
+  intro:"Checkliste Punkte 3 und 4: Aufbau der Gesellschaft (Ständeordnung, Lehnspyramide, Grundherrschaft) und warum der König mit seinem Gefolge umherreiste.",
+  qs:[
+  {t:"mc", q:"Nach der mittelalterlichen Vorstellung gab es drei Stände mit drei Aufgaben. Welche Zuordnung stimmt?", o:["Klerus: kämpfen · Adel: beten · Bauern: arbeiten","Klerus: beten · Adel: schützen und kämpfen · Bauern: arbeiten","Klerus: arbeiten · Adel: beten · Bauern: kämpfen","Bürger: beten · Adel: arbeiten · Bauern: kämpfen"], a:1, ex:"Geistliche (Klerus) beten, Adlige schützen und kämpfen, Bauern arbeiten und ernähren alle. Lateinisch: oratores, bellatores, laboratores."},
+  {t:"order", q:"Bringe die Lehnspyramide in die richtige Reihenfolge, von oben (1) nach unten (4).", items:["König (oberster Lehnsherr)","Kronvasallen: Herzöge, Grafen, Bischöfe, Äbte","Untervasallen: Ritter","Bauern (arbeiten auf dem Land, abhängig vom Grundherrn)"], ex:"Der König verleiht Lehen an die Kronvasallen. Diese geben Teile davon an Untervasallen (Ritter) weiter. Ganz unten stehen die Bauern, die das Land bewirtschaften."},
+  {t:"multi", q:"Was waren die Pflichten eines Vasallen gegenüber seinem Lehnsherrn? (mehrere richtig)", o:["Treue","Kriegsdienst (Heerfolge)","Rat und Hilfe","Dem Herrn Schutz bieten","Das Lehen verkaufen dürfen"], a:[0,1,2], ex:"Der Vasall schuldet Treue, Kriegsdienst sowie Rat und Hilfe. Schutz bietet umgekehrt der Lehnsherr. Verkaufen durfte der Vasall das Lehen nicht, es gehörte ja weiter dem Herrn."},
+  {t:"multi", q:"Was gab der Grundherr seinen Bauern, was gaben die Bauern dem Grundherrn? Kreuze nur an, was die BAUERN dem Grundherrn gaben.", o:["Abgaben (Getreide, Eier, Vieh, Wolle …)","Frondienste","Schutz in Kriegszeiten","Land zur Bewirtschaftung","Gerichtsbarkeit"], a:[0,1], ex:"Bauern geben Abgaben und Frondienste. Der Grundherr gibt Land, Schutz und spricht Recht. Merke: Es ist ein Verhältnis von Geben und Nehmen, aber ein sehr ungleiches."},
+  {t:"tf", q:"Hörige Bauern durften ohne Erlaubnis des Grundherrn wegziehen und heiraten, wen sie wollten.", a:false, ex:"Falsch. Hörige waren an den Boden gebunden. Wegziehen und auch Heiraten brauchten die Erlaubnis des Grundherrn."},
+  {t:"tf", q:"Auch Klöster und Bischöfe konnten Grundherren sein.", a:true, ex:"Richtig. Grundherren waren Adlige, der König, aber auch Klöster und Bistümer. Das Kloster Maulbronn hatte z. B. riesige Ländereien."},
+  {t:"tf", q:"Die Bürger der Städte passten genau in eine der drei Stände der alten Ständelehre.", a:false, ex:"Falsch. Die Ständelehre kannte nur Klerus, Adel und Bauern. Die Bürger in den Städten waren eine neue Gruppe, die in dieses Schema nicht passte: frei, aber nicht adlig."},
+  {t:"multi", q:"Warum reiste der König im Mittelalter mit seinem Gefolge durch das Reich? (mehrere richtig)", o:["Er musste persönlich anwesend sein, um seine Macht zu zeigen und durchzusetzen.","Es gab keine Hauptstadt und keine Verwaltung, die für ihn regieren konnte.","Ein einzelner Ort konnte den großen Hof nicht lange mit Essen versorgen.","Er sprach Recht und hielt Hoftage mit seinen Vasallen ab.","Er wollte vor allem Urlaub machen und das Land kennenlernen."], a:[0,1,2,3], ex:"Alle außer dem letzten Punkt. Ohne Telefon, Post oder Beamte musste der König persönlich erscheinen: Treue der Vasallen sichern, Streit schlichten, Recht sprechen. Außerdem konnten Lebensmittel nicht weit transportiert werden; der Hof aß die Vorräte einer Pfalz in wenigen Wochen auf und zog weiter."},
+  {t:"mc", q:"Wer gehörte typischerweise zum Gefolge des Königs?", o:["Nur seine Familie","Adlige, Geistliche (z. B. Schreiber der Kanzlei), Krieger und Diener, oft Hunderte Menschen","Nur Kaufleute und Händler","Nur Bauern aus dem Umland"], a:1, ex:"Der Hof war groß: Berater aus dem Adel, Geistliche für Gottesdienst und Urkunden, bewaffnete Begleiter, Köche, Knechte. Manchmal waren es über tausend Personen."},
+  {t:"mc", q:"Wo machte der König auf seinen Reisen Station, wenn keine Pfalz in der Nähe war?", o:["In Gasthäusern, für die er bezahlte","In Bischofssitzen und Klöstern, die ihn bewirten mussten","Im Zelt auf freiem Feld, immer","Bei Bauern im Dorf"], a:1, ex:"Bischöfe und Reichsklöster hatten die Pflicht, den König und sein Gefolge aufzunehmen und zu versorgen (Gastungspflicht). Auch das zeigt, wie eng König und Kirche verbunden waren."},
+  {t:"tf", q:"Ein Lehen wurde im Laufe der Zeit oft vom Vater an den Sohn vererbt.", a:true, ex:"Richtig. Ursprünglich galt das Lehen nur auf Lebenszeit, später wurde es meist erblich. Dadurch wurden die großen Adelsfamilien mächtiger und der König schwächer."},
+  {t:"mc", q:"Die Bauern mussten zusätzlich zu den Abgaben an den Grundherrn ein Zehntel ihrer Ernte an die Kirche abgeben. Wie hieß diese Abgabe?", o:["der Zoll","der Zehnt","die Fron","das Lehen"], a:1, ex:"Der Zehnt ging an die Kirche. Für die Bauern bedeutete das: Abgaben an den Grundherrn, Frondienst UND Zehnt. Das Leben war entsprechend hart."},
+  ]},
+{ id:"lebenswelten", title:"3 · Land, Burg, Kloster", short:"Land·Burg·Kloster",
+  intro:"Checkliste Punkt 2 (Teil 1): Wie lebten die Menschen auf dem Land, auf der Burg und im Kloster?",
+  qs:[
+  {t:"mc", q:"Etwa wie viele Menschen lebten im Mittelalter als Bauern auf dem Land?", o:["etwa 10 %","etwa 30 %","etwa 50 %","etwa 90 %"], a:3, ex:"Rund 9 von 10 Menschen lebten auf dem Land und arbeiteten in der Landwirtschaft."},
+  {t:"mc", q:"Bei der Dreifelderwirtschaft wurde das Ackerland in drei Teile geteilt. Welche Einteilung stimmt?", o:["Weizen · Kartoffeln · Mais","Wintergetreide · Sommergetreide · Brache (Erholung)","Wald · Wiese · Weide","Gemüse · Obst · Wein"], a:1, ex:"Wintergetreide, Sommergetreide, Brache. Jedes Jahr wurde gewechselt, sodass sich der Boden erholen konnte. Die Ernte wurde größer. Klöster haben diese Technik verbreitet. (Kartoffeln und Mais kamen erst nach der Entdeckung Amerikas nach Europa.)"},
+  {t:"multi", q:"Welche Funktionen hatte eine Burg? (Arbeitsblatt: doppelt so viele richtige wie falsche)", o:["Symbol für die Macht des Herrschers","Verteidigung des Landes und der Umgebung","Sicherung von Handelswegen an Straßen und Flüssen","Militärischer Stützpunkt","Festung, Wohnort und Hof des Ritters","Zufluchtsort für Bauern und Vieh in Notzeiten","Herberge, die an reisende Kaufleute vermietet wurde","Versammlungsort für Volksabstimmungen","Bau nach romantischen Wünschen des Besitzers"], a:[0,1,2,3,4,5], ex:"Die ersten sechs stimmen. Burgen waren keine Hotels, Volksabstimmungen gab es nicht, und „romantisch“ fand man Burgen erst im 19. Jahrhundert."},
+  {t:"mc", q:"Wie heißt der höchste und stärkste Turm einer Burg, der als letzter Zufluchtsort diente?", o:["Palas","Bergfried","Zinne","Kemenate"], a:1, ex:"Der Bergfried. Der Palas ist dagegen das Wohn- und Saalgebäude des Burgherrn. Eine Kemenate ist ein beheizbarer Wohnraum."},
+  {t:"mc", q:"Wozu dienten die Zisternen einer Burg?", o:["Zum Lagern von Waffen","Zum Auffangen von Regenwasser, damit die Burg nicht nur auf Grundwasser angewiesen war","Als Gefängnis","Zur Fischzucht"], a:1, ex:"Zisternen sammelten Regenwasser. Bei einer Belagerung versuchten Angreifer nämlich oft, den Brunnen vom Grundwasser abzutrennen."},
+  {t:"multi", q:"Wie versuchten Angreifer, eine Burg zu erobern? (mehrere richtig)", o:["Belagern und aushungern","Den Brunnen abgraben, um das Wasser abzuschneiden","Die Fundamente untergraben und dort Feuer legen","Tierkadaver hineinschießen, um Krankheiten und Seuchen zu verbreiten","Mit Brandgeschossen die Burg anzünden","Den Burgherrn zur Volksabstimmung einladen"], a:[0,1,2,3,4], ex:"Alles außer dem letzten. Ein direkter Angriff war gefährlich, deshalb versuchte man es oft erst mit Belagerung, Hunger, Durst und Krankheit."},
+  {t:"tf", q:"Burgen wurden meist in Höhenlage gebaut. Wo das nicht ging, im flachen Land, baute man Wasserburgen mit Gräben.", a:true, ex:"Richtig. Höhenlage erschwerte den Zugang; im Flachland schützten Wassergräben."},
+  {t:"tf", q:"Das Leben auf einer Burg war bequem, warm und hell.", a:false, ex:"Falsch. Burgen waren kalt, feucht, dunkel und eng. Nur wenige Räume (Kemenate) waren beheizbar, Fenster waren klein."},
+  {t:"mc", q:"Wie lautete die Regel des Benedikt von Nursia für das Leben im Kloster?", o:["„Veni, vidi, vici“","„Ora et labora“ – bete und arbeite","„Stadtluft macht frei“","„Wer nicht kämpft, isst nicht“"], a:1, ex:"Ora et labora = bete und arbeite. Das Gebet war die wichtigste Aufgabe, aber Mönche und Nonnen sollten auch arbeiten."},
+  {t:"multi", q:"Welche Arbeiten gab es im Kloster? (mehrere richtig)", o:["Bücher im Skriptorium abschreiben","Garten- und Ackerbau","Kranke als Ärzte und Apotheker behandeln","Als Bäcker, Schmiede, Schreiner arbeiten","Gewänder für den Gottesdienst sticken","Fernhandel mit Gewürzen aus Asien betreiben"], a:[0,1,2,3,4], ex:"Alles außer Fernhandel. Wichtig für eine sehr gute Note: Durch das Abschreiben im Skriptorium blieb altes Wissen (auch aus der Antike) erhalten."},
+  {t:"tf", q:"In einem Kloster lebten nur Mönche.", a:false, ex:"Falsch. Es gab auch Frauenklöster mit Nonnen. Außerdem lebten und arbeiteten Laien beim Kloster, und der Grundherr wohnte manchmal im Herrenhaus auf dem Klostergrund."},
+  {t:"tf", q:"Mönche und Nonnen kümmerten sich nur um sich selbst.", a:false, ex:"Falsch. Das Kloster war auch für die Menschen rund um die Klostermauern verantwortlich: Gottesdienste, Seelsorge, Behandlung und Versorgung von Kranken, Aufnahme von Gästen und Armen."},
+  {t:"multi", q:"Warum gingen Menschen ins Kloster? (mehrere richtig)", o:["Um in Einfachheit und Armut Gott nahe zu sein","Weil Familien ihre Kinder der Kirche widmeten, um Seelenheil zu erlangen","Weil Eltern die teure Mitgift für eine Tochter nicht bezahlen konnten","Um dort Karriere zu machen","Weil das Klosterleben besonders luxuriös war"], a:[0,1,2,3], ex:"Alles außer Luxus. Neben dem religiösen Grund gab es also auch ganz praktische Gründe."},
+  {t:"mc", q:"Wie veränderten die Klöster die Landwirtschaft?", o:["Gar nicht, sie hatten mit Landwirtschaft nichts zu tun.","Sie rodeten Land, legten Äcker, Teiche und Mühlen an und verbreiteten Wissen (Bewässerung, Fischzucht, Dreifelderwirtschaft) unter den Bauern.","Sie verboten den Bauern neue Techniken.","Sie kauften den Bauern das ganze Land ab."], a:1, ex:"Klöster waren Vorreiter: Sie führten eine moderne Landwirtschaft ein und gaben ihr Wissen an die Bauern weiter."},
+  ]},
+{ id:"stadt", title:"4 · Stadt & Lübeck", short:"Stadt",
+  intro:"Checkliste Punkt 2 (Teil 2): Leben in der mittelalterlichen Stadt, mit dem Beispiel Lübeck.",
+  qs:[
+  {t:"mc", q:"Wer stand an der Spitze der städtischen Bevölkerung?", o:["Die Bauern","Die Patrizier (reiche Kaufmannsfamilien)","Die Tagelöhner","Die Mönche"], a:1, ex:"Die Patrizier. Achtung: Nicht „die Adeligen“! In der Stadt waren die reichen Kaufleute oben, nicht der Adel."},
+  {t:"order", q:"Ordne die Gruppen der Stadtbevölkerung von oben (1) nach unten (3).", items:["Patrizier (Rat, Handel, großer Reichtum)","Selbstständige Handwerker (Großteil der Bürger, zahlen Steuern, verteidigen die Stadt)","Unterschicht ohne Bürgerrecht: Tagelöhner, Mägde, Knechte (40–60 %)"], ex:"Die Stadt war sehr ungleich. Fast die Hälfte oder mehr der Bewohner hatte kein Bürgerrecht und durfte politisch nicht mitbestimmen."},
+  {t:"tf", q:"Alle Stadtbewohner, auch Mägde und Tagelöhner, waren persönlich frei.", a:true, ex:"Richtig. Das war die rechtliche Sonderstellung der Stadt: Ihre Bewohner waren frei, anders als die meist hörigen oder leibeigenen Bauern auf dem Land. Daher der Spruch „Stadtluft macht frei“."},
+  {t:"tf", q:"Alle Bewohner der Stadt durften im Rat mitbestimmen.", a:false, ex:"Falsch. Im Rat saßen vor allem die Patrizier. 40–60 % der Bewohner hatten nicht einmal das Bürgerrecht."},
+  {t:"mc", q:"Wer war der Stadtherr, und warum hatte er Interesse an einer Stadtgründung?", o:["Der Bürgermeister; er wollte gewählt werden.","Der Landesherr, auf dessen Gebiet die Stadt lag; Städte brachten ihm militärische Stärke und durch Steuern und Zölle Reichtum.","Der Papst; er wollte neue Kirchen.","Die Bauern; sie wollten auf dem Markt verkaufen."], a:1, ex:"Der Stadtherr war der Landesherr. Befestigte Städte waren militärisch wichtig, und durch Handel und Handwerk entstand Wohlstand, an dem er über Steuern und Zölle teilhatte."},
+  {t:"mc", q:"Was ist eine Reichsstadt?", o:["Eine besonders reiche Stadt","Eine Stadt, deren Stadtherr direkt der König/Kaiser war und die deshalb besonders selbstständig war","Eine Stadt, die nur aus Kirchen bestand","Die Hauptstadt des Reiches"], a:1, ex:"Reichsstädte unterstanden nur dem König. Ihre Selbstverwaltung war besonders stark. Lübeck wurde 1226 freie Reichsstadt."},
+  {t:"multi", q:"Welche Funktionen hatte eine mittelalterliche Stadt? (mehrere richtig)", o:["Wohnort mit Werkstätten und Geschäften","Zentrum von Produktion und Warenaustausch (Markt)","Religiöses Zentrum (große Kirchen)","Schutz durch Befestigung und Stadtmauer","Ort der Landwirtschaft mit großen Feldern innerhalb der Mauern"], a:[0,1,2,3], ex:"Alles außer Landwirtschaft. Typisch für die Stadt war die hohe Arbeitsteilung, ganz anders als auf dem Land."},
+  {t:"order", q:"Bringe die Entwicklung Lübecks in die richtige zeitliche Reihenfolge (1 = früheste).", items:["1143: Graf Adolf II. von Schauenburg gründet Lübeck als Handelsplatz","1160: Heinrich der Löwe lässt den Bischofssitz nach Lübeck verlegen, Dom und Dombezirk entstehen","1226: Kaiser Friedrich II. verleiht das Reichsfreiheitsprivileg","13. Jahrhundert: Lübeck baut seine Stellung im Ostseehandel aus, drei Stadterweiterungen","1358: Erster Hansetag in Lübeck, Führungsmacht der Hanse"], ex:"Gründung → Bischofssitz → Reichsfreiheit → Aufstieg im Ostseehandel → Hanse."},
+  {t:"mc", q:"Lübeck hatte 1350 etwa 18.800 Einwohner, 1400 nur noch 17.200. Was ist die wahrscheinlichste Erklärung?", o:["Ein großer Krieg mit Hamburg","Die Pest wütete zwischen 1350 und 1400 in Europa","Viele zogen in die Neue Welt","Die Stadtmauer wurde abgerissen"], a:1, ex:"Die Pest. Sehr gut ist, wenn du zusätzlich erkennst: Danach wuchs Lübeck wieder (1502: 25.444), weil die Stadt durch Handel attraktiv blieb und Menschen vom Land zuzogen."},
+  {t:"multi", q:"Was machte Lübeck im Mittelalter so attraktiv? (mehrere richtig)", o:["Günstige Lage nahe der Ostsee, zwischen den Flüssen Trave und Wakenitz","Reichsfreiheit und damit politische Eigenständigkeit","Rolle als Drehscheibe des Handels zwischen West-, Mittel- und Nordosteuropa (Hanse)","Zahlreiche Märkte und Messen","Goldminen direkt unter der Stadt"], a:[0,1,2,3], ex:"Alles außer den (erfundenen) Goldminen. Lage + Freiheit + Handel = Aufstieg."},
+  {t:"mc", q:"Auf dem Stadtbild von Bamberg (1493) sieht man u. a. Stadtmauer, Stadttor, Türme, Fluss und Brücke. Wozu dienten Mauer, Tore und Türme vor allem?", o:["Als Schmuck","Zum Schutz von Markt, Bewohnern und Gütern; an den Toren wurden außerdem Zölle erhoben","Um Bauern am Betreten zu hindern","Als Wohnung des Königs"], a:1, ex:"Die Befestigung schützte Markt, Bewohner und Waren. Aus einfachen Mauern wurden mit der Zeit große Festungsanlagen."},
+  {t:"tf", q:"Patrizier pflegten oft einen Lebensstil wie der Adel, während die Unterschicht täglich um ihre Lebensgrundlage kämpfte.", a:true, ex:"Richtig. So ungleich der Reichtum, so unterschiedlich waren die Lebensformen in der Stadt."},
+  ]},
+{ id:"probe", title:"5 · Probearbeit", short:"Probearbeit",
+  intro:"Offene Aufgaben wie in der Klassenarbeit. Erst selbst schreiben (auf Papier oder hier im Feld), dann die Musterlösung aufklappen und ehrlich vergleichen. Unter jeder Lösung steht, was eine Antwort von 2,0 zu 1,3 macht.",
+  qs:[
+  {t:"open", tag:"Nennen · Erklären", q:"Erkläre die Begriffe Grundherrschaft und Frondienst. Gehe darauf ein, was Grundherr und Bauern jeweils voneinander bekamen.", model:"<ul><li><b>Grundherrschaft:</b> Ein Grundherr (Adliger, König, Kloster, Bischof) besitzt Land und überlässt es Bauern zur Bewirtschaftung. Er hat auch Herrschaft über die Menschen, die darauf leben (Gericht, Erlaubnis zum Heiraten/Wegziehen).</li><li><b>Bauern geben:</b> Abgaben (Teil der Ernte, Vieh, Eier, Wolle) und Frondienste.</li><li><b>Grundherr gibt:</b> Land, Schutz (z. B. auf der Burg in Kriegszeiten), Rechtsprechung.</li><li><b>Frondienst:</b> unbezahlte Arbeit der Bauern auf dem Herrenland, am Fronhof („Fron“ = Herr).</li></ul>", grade:"2,0: beide Begriffe richtig erklärt. 1,7: Geben und Nehmen beider Seiten genannt. 1,3: zusätzlich Fronhof und Hörigkeit erwähnt und erkannt, dass das Verhältnis sehr ungleich war."},
+  {t:"open", tag:"Beschreiben · Erklären", q:"Beschreibe das Lehnswesen. Erkläre, warum der König darauf angewiesen war.", model:"<ul><li>Der König (oberster Lehnsherr) verleiht Land oder Ämter (Lehen) an Kronvasallen (Herzöge, Grafen, Bischöfe, Äbte). Diese geben Teile an Untervasallen (Ritter) weiter.</li><li>Gegenleistung des Vasallen: Treue, Kriegsdienst, Rat und Hilfe. Der Lehnsherr gibt Schutz und das Lehen.</li><li>Das Lehen bleibt Eigentum des Herrn; später wurde es oft erblich.</li><li><b>Warum nötig:</b> Das Reich war riesig, es gab keine Beamten, kein stehendes Heer und kaum Geld. Mit Land konnte der König Krieger und Verwalter „bezahlen“ und an sich binden.</li></ul>", grade:"2,0: Ablauf mit Gegenleistungen richtig. 1,7: Begründung mit fehlender Verwaltung/Geld. 1,3: zusätzlich die Gefahr erkannt, dass erbliche Lehen die Adligen mächtiger und den König schwächer machten."},
+  {t:"open", tag:"Erklären", q:"Erkläre, warum der König und sein Gefolge im Mittelalter umherreisten (Reisekönigtum). Nenne mindestens drei Gründe.", model:"<ul><li>Keine Hauptstadt und keine Verwaltung: Herrschaft funktionierte nur durch persönliche Anwesenheit.</li><li>Macht zeigen, Treue der Vasallen sichern, Streit schlichten.</li><li>Recht sprechen und Hoftage abhalten.</li><li>Versorgung: Der Hof mit oft Hunderten Menschen aß die Vorräte eines Ortes schnell auf; Lebensmittel konnten nicht weit transportiert werden. Also zog der Hof zu den Vorräten.</li><li>Stationen: Pfalzen, außerdem Bischofssitze und Reichsklöster, die den König versorgen mussten.</li></ul>", grade:"2,0: drei richtige Gründe. 1,7: Gründe werden begründet (nicht nur genannt) und Pfalzen erwähnt. 1,3: Zusammenhang hergestellt: fehlende Verwaltung und schlechte Verkehrswege → persönliche Herrschaft; Rolle von Kirche/Klöstern bei der Versorgung."},
+  {t:"open", tag:"Beschreiben · Vergleichen", q:"Vergleiche das Leben eines Bauern auf dem Land mit dem Leben eines Handwerkers in der Stadt. Nenne Gemeinsamkeiten und Unterschiede.", model:"<ul><li><b>Bauer:</b> meist hörig oder leibeigen, an das Land gebunden, Abgaben, Frondienste und Zehnt, harte Arbeit, Abhängigkeit vom Wetter (Missernten, Hunger), kaum Arbeitsteilung, lebt im Dorf.</li><li><b>Handwerker:</b> persönlich frei („Stadtluft macht frei“), hat als Bürger Bürgerrecht, eigene Werkstatt, zahlt Steuern, muss die Stadt mit verteidigen, verkauft auf dem Markt, hohe Arbeitsteilung, geschützt durch Stadtmauer.</li><li><b>Gemeinsam:</b> beide arbeiten hart mit den Händen, beide stehen nicht an der Spitze (über ihnen Grundherr bzw. Patrizier), beide müssen Abgaben/Steuern zahlen.</li></ul>", grade:"2,0: je zwei richtige Merkmale. 1,7: klare Gegenüberstellung mit Unterschieden UND Gemeinsamkeit. 1,3: der Hauptunterschied Freiheit vs. Unfreiheit wird betont und mit Fachbegriffen (Hörigkeit, Bürgerrecht, Arbeitsteilung) erklärt."},
+  {t:"open", tag:"Erklären · Beurteilen", q:"„Ora et labora“: Erkläre, wie Mönche und Nonnen im Kloster lebten, und beurteile, welche Bedeutung Klöster für die Menschen außerhalb der Klostermauern hatten.", model:"<ul><li>Regel des Benedikt von Nursia: beten und arbeiten. Das Gebet war die wichtigste Aufgabe (mehrmals täglich).</li><li>Leben in Armut, Gehorsam, Keuschheit (Askese), abgeschieden (Klausur). Gemeinschaft = Konvent. Hilfe von Laien.</li><li>Arbeiten: Skriptorium (Bücher abschreiben), Garten, Handwerk, Krankenpflege.</li><li><b>Bedeutung nach außen:</b> Verbreitung von Wissen über Ackerbau (Dreifelderwirtschaft, Mühlen, Fischzucht), Krankenpflege, Versorgung von Armen und Gästen, Seelsorge, Bewahrung von Büchern und Bildung. Mächtige Klöster wie Cluny berieten sogar Kaiser und Könige.</li><li><b>Urteil:</b> z. B. „Klöster waren für die Menschen sehr wichtig, weil …“ mit Begründung.</li></ul>", grade:"2,0: Klosterleben richtig beschrieben. 1,7: mehrere Bereiche der Bedeutung nach außen. 1,3: ein eigenes, begründetes Urteil (Beurteilen heißt: Meinung + Begründung mit Fakten)."},
+  {t:"open", tag:"Erklären", q:"Erkläre den Aufbau der mittelalterlichen Gesellschaft (Ständegesellschaft). Warum gab es kaum Aufstieg? Und wo passten die Bürger der Städte hinein?", model:"<ul><li>Drei Stände: Klerus (beten), Adel (schützen/kämpfen), Bauern (arbeiten). An der Spitze der König.</li><li>Die Ordnung galt als <b>gottgewollt</b>; der Stand wurde durch <b>Geburt</b> bestimmt. Wer gegen die Ordnung war, war gegen Gott, deshalb kaum Aufstieg (Ausnahme: Laufbahn in der Kirche).</li><li>Die Bürger in den Städten passten nicht in das Drei-Stände-Schema: Sie waren frei, aber nicht adlig, und wurden durch Handel teils sehr reich (Patrizier). Auch innerhalb der Stadt gab es große Ungleichheit.</li></ul>", grade:"2,0: drei Stände mit Aufgaben. 1,7: Begründung (gottgewollt, Geburt). 1,3: Bürger als neue Gruppe erkannt und erklärt, warum das die alte Ordnung in Frage stellte."},
+  ]}
+];
+
+const LS="mittelalter-quiz-v1";
+let state={};
+try{state=JSON.parse(localStorage.getItem(LS)||"{}")||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}}
+let current=QUIZZES[0].id;
+try{const h=location.hash.slice(1); if(QUIZZES.some(q=>q.id===h)) current=h;}catch(e){}
+
+const $=(s,el=document)=>el.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>s.toLowerCase().trim().replace(/\s+/g," ").replace(/[.!]$/,"");
+const L="ABCDEFGHIJ";
+
+function seededShuffle(arr,seed){const a=arr.map((v,i)=>i);let s=seed;for(let i=a.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function qState(qid,i){state[qid]=state[qid]||{};return state[qid][i]}
+function setQ(qid,i,v){state[qid]=state[qid]||{};state[qid][i]=v;save();renderTabs();renderScore()}
+
+function tally(quiz){
+  let done=0,ok=0,total=0;
+  quiz.qs.forEach((q,i)=>{ if(q.t==="open") return; total++; const s=(state[quiz.id]||{})[i]; if(s&&s.done){done++; if(s.ok) ok++;} });
+  return {done,ok,total};
+}
+function renderTabs(){
+  const nav=$("#tabs"); nav.innerHTML="";
+  QUIZZES.forEach(qz=>{
+    const b=document.createElement("button"); b.setAttribute("role","tab"); b.setAttribute("aria-selected",qz.id===current);
+    const t=tally(qz);
+    b.innerHTML=esc(qz.title)+(t.total?`<span class="s">${t.ok}/${t.total}</span>`:"");
+    b.onclick=()=>{current=qz.id;try{history.replaceState(null,"","#"+qz.id)}catch(e){};render();window.scrollTo({top:0})};
+    nav.appendChild(b);
+  });
+}
+function fb(el,ok,text,info){const d=document.createElement("div");d.className="fb "+(info?"info":ok?"ok":"no");d.innerHTML=(info?"":`<b class="v">${ok?"Richtig!":"Nicht ganz."}</b>`)+text;el.appendChild(d)}
+
+function renderQ(quiz,q,i){
+  const box=document.createElement("section"); box.className="q";
+  const n=quiz.qs.filter(x=>x.t!=="open").length;
+  box.innerHTML=`<div class="num">Aufgabe ${i+1}${q.tag?`<span class="tag">${esc(q.tag)}</span>`:""}</div><p class="qt">${esc(q.q)}</p>`;
+  const s=qState(quiz.id,i)||{};
+  if(q.t==="mc"||q.t==="tf"){
+    const opts=q.t==="tf"?["richtig","falsch"]:q.o;
+    const correct=q.t==="tf"?(q.a?0:1):q.a;
+    const order=q.t==="tf"?[0,1]:seededShuffle(opts,i*7+quiz.id.length*13+3);
+    const wrap=document.createElement("div");wrap.className="opts";
+    order.forEach((oi,k)=>{
+      const b=document.createElement("button");b.className="opt";b.type="button";
+      b.innerHTML=`<span class="k">${q.t==="tf"?"":L[k]}</span><span>${esc(opts[oi])}</span>`;
+      if(s.done){b.disabled=true; if(oi===correct) b.classList.add("right"); else if(oi===s.pick) b.classList.add("wrong");}
+      b.onclick=()=>{setQ(quiz.id,i,{done:true,ok:oi===correct,pick:oi});rerender(box,quiz,q,i)};
+      wrap.appendChild(b);
+    });
+    box.appendChild(wrap);
+    if(s.done) fb(box,s.ok,esc(q.ex));
+  }
+  else if(q.t==="multi"){
+    const order=seededShuffle(q.o,i*11+quiz.id.length*5+1);
+    const picked=new Set(s.picks||[]);
+    const wrap=document.createElement("div");wrap.className="opts";
+    order.forEach((oi,k)=>{
+      const b=document.createElement("button");b.className="opt";b.type="button";b.setAttribute("aria-pressed",picked.has(oi));
+      b.innerHTML=`<span class="k">${picked.has(oi)?"☑":"☐"}</span><span>${esc(q.o[oi])}</span>`;
+      if(s.done){b.disabled=true;const c=q.a.includes(oi); if(c) b.classList.add("right"); else if(picked.has(oi)) b.classList.add("wrong");}
+      else{ if(picked.has(oi)) b.classList.add("sel");
+        b.onclick=()=>{picked.has(oi)?picked.delete(oi):picked.add(oi);state[quiz.id]=state[quiz.id]||{};state[quiz.id][i]={picks:[...picked]};save();rerender(box,quiz,q,i)}; }
+      wrap.appendChild(b);
+    });
+    box.appendChild(wrap);
+    if(!s.done){const r=document.createElement("div");r.className="row";const c=document.createElement("button");c.className="btn";c.textContent="Prüfen";c.disabled=!picked.size;
+      c.onclick=()=>{const ok=q.a.length===picked.size&&q.a.every(x=>picked.has(x));setQ(quiz.id,i,{done:true,ok,picks:[...picked]});rerender(box,quiz,q,i)};r.appendChild(c);box.appendChild(r);}
+    else fb(box,s.ok,(s.ok?"":"Grün markiert sind alle richtigen Antworten. ")+esc(q.ex));
+  }
+  else if(q.t==="fill"){
+    const r=document.createElement("div");r.className="row";
+    const inp=document.createElement("input");inp.type="text";inp.id=`f-${quiz.id}-${i}`;inp.placeholder="Begriff eintippen";inp.value=s.val||"";inp.autocomplete="off";inp.disabled=!!s.done;
+    const c=document.createElement("button");c.className="btn";c.textContent="Prüfen";c.disabled=!!s.done;
+    const go=()=>{const v=inp.value; if(!v.trim()) return; const ok=q.acc.includes(norm(v)); setQ(quiz.id,i,{done:true,ok,val:v}); rerender(box,quiz,q,i)};
+    c.onclick=go; inp.onkeydown=e=>{if(e.key==="Enter") go()};
+    r.append(inp,c);
+    if(!s.done){const h=document.createElement("button");h.className="btn ghost";h.textContent="Weiß ich nicht";h.onclick=()=>{setQ(quiz.id,i,{done:true,ok:false,val:""});rerender(box,quiz,q,i)};r.appendChild(h)}
+    box.appendChild(r);
+    if(s.done) fb(box,s.ok,esc(q.ex));
+  }
+  else if(q.t==="order"){
+    const order=seededShuffle(q.items,i*5+quiz.id.length*3+2);
+    const picks=s.picks||{};
+    order.forEach(oi=>{
+      const row=document.createElement("div");row.className="order-item";
+      const sel=document.createElement("select");sel.id=`o-${quiz.id}-${i}-${oi}`;sel.disabled=!!s.done;sel.setAttribute("aria-label","Position");
+      sel.innerHTML=`<option value="">–</option>`+q.items.map((_,k)=>`<option value="${k}">${k+1}</option>`).join("");
+      if(picks[oi]!==undefined) sel.value=picks[oi];
+      sel.onchange=()=>{const p={...(qState(quiz.id,i)||{}).picks};p[oi]=sel.value===""?undefined:+sel.value;state[quiz.id]=state[quiz.id]||{};state[quiz.id][i]={picks:p};save();rerender(box,quiz,q,i)};
+      const sp=document.createElement("span");sp.textContent=q.items[oi];
+      if(s.done){sp.style.color=picks[oi]===oi?"var(--ok)":"var(--bad)"}
+      row.append(sel,sp);box.appendChild(row);
+    });
+    if(!s.done){const r=document.createElement("div");r.className="row";const c=document.createElement("button");c.className="btn";c.textContent="Prüfen";
+      c.disabled=q.items.some((_,k)=>picks[k]===undefined);
+      c.onclick=()=>{const ok=q.items.every((_,k)=>picks[k]===k);setQ(quiz.id,i,{done:true,ok,picks});rerender(box,quiz,q,i)};r.appendChild(c);box.appendChild(r);}
+    else fb(box,s.ok,"Richtige Reihenfolge:<ol style='margin:.3rem 0;padding-left:1.3rem'>"+q.items.map(x=>`<li>${esc(x)}</li>`).join("")+"</ol>"+esc(q.ex));
+  }
+  else if(q.t==="open"){
+    const ta=document.createElement("textarea");ta.id=`t-${quiz.id}-${i}`;ta.placeholder="Deine Antwort (Stichpunkte reichen zum Üben, in der Arbeit ganze Sätze)";ta.value=s.val||"";
+    ta.oninput=()=>{state[quiz.id]=state[quiz.id]||{};state[quiz.id][i]={...(state[quiz.id][i]||{}),val:ta.value};save()};
+    box.appendChild(ta);
+    const r=document.createElement("div");r.className="row";const c=document.createElement("button");c.className="btn"+(s.shown?" ghost":"");c.textContent=s.shown?"Musterlösung ausblenden":"Musterlösung zeigen";
+    c.onclick=()=>{const cur=qState(quiz.id,i)||{};state[quiz.id]=state[quiz.id]||{};state[quiz.id][i]={...cur,val:ta.value,shown:!cur.shown};save();rerender(box,quiz,q,i)};
+    r.appendChild(c);box.appendChild(r);
+    if(s.shown){
+      const d=document.createElement("div");d.className="fb info model";d.innerHTML=`<b class="v">Musterlösung</b>${q.model}<div class="grade">${esc(q.grade)}</div>`;
+      const sr=document.createElement("div");sr.className="selfrate";sr.innerHTML=`<span style="color:var(--muted);font-size:.85rem;align-self:center">Meine Antwort war:</span>`;
+      ["fast alles drin","das Wichtigste drin","große Lücken"].forEach(lbl=>{const b=document.createElement("button");b.textContent=lbl;if(s.self===lbl)b.classList.add("on");
+        b.onclick=()=>{const cur=qState(quiz.id,i)||{};state[quiz.id]=state[quiz.id]||{};state[quiz.id][i]={...cur,self:lbl};save();rerender(box,quiz,q,i)};sr.appendChild(b)});
+      d.appendChild(sr);box.appendChild(d);
+    }
+  }
+  return box;
+}
+function rerender(box,quiz,q,i){box.replaceWith(renderQ(quiz,q,i));}
+
+function gradeHint(p){
+  if(p>=92) return "Sehr gut, das entspricht etwa dem Niveau einer 1,3 oder besser.";
+  if(p>=85) return "Gut dabei, etwa 1,7-Niveau. Lies die Erklärungen der falschen Antworten noch einmal.";
+  if(p>=78) return "Etwa 2,0-Niveau. Wiederhole die falschen Aufgaben morgen noch einmal.";
+  return "Hier lohnt sich Wiederholen: Erklärungen lesen, dann die Runde zurücksetzen und neu starten.";
+}
+function renderScore(){
+  const quiz=QUIZZES.find(q=>q.id===current); const el=$("#score"); el.innerHTML="";
+  const box=document.createElement("div");box.className="score";
+  if(quiz.id==="probe"){
+    const n=quiz.qs.length; const shown=quiz.qs.filter((_,i)=>(qState(quiz.id,i)||{}).self).length;
+    box.innerHTML=`<span class="big">${shown}/${n}</span><span>Aufgaben selbst bewertet</span><span class="hint">Tipp für Eltern: Lasst Leo eine Antwort laut erklären, ohne Zettel. Wer frei erklären kann, schafft die 1,3.</span>`;
+  } else {
+    const t=tally(quiz); const p=t.done?Math.round(t.ok/t.total*100):0;
+    box.innerHTML=`<span class="big">${t.ok}/${t.total}</span><span>richtig · ${t.done} von ${t.total} beantwortet</span>`+(t.done===t.total?`<span class="hint">${p} %: ${gradeHint(p)}</span>`:`<span class="hint">Beantworte alle Aufgaben, dann gibt es eine Einschätzung.</span>`);
+  }
+  const r=document.createElement("button");r.className="btn ghost";r.textContent="Runde zurücksetzen";r.style.marginLeft="auto";
+  r.onclick=()=>{delete state[quiz.id];save();render()};box.appendChild(r);
+  el.appendChild(box);
+}
+function render(){
+  renderTabs();
+  const quiz=QUIZZES.find(q=>q.id===current); const p=$("#panel"); p.innerHTML="";
+  const h=document.createElement("h2");h.textContent=quiz.title.replace(/^\d · /,"");p.appendChild(h);
+  const intro=document.createElement("p");intro.className="intro";intro.textContent=quiz.intro;p.appendChild(intro);
+  quiz.qs.forEach((q,i)=>p.appendChild(renderQ(quiz,q,i)));
+  renderScore();
+}
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(QUIZZES.some(q=>q.id===h)){current=h;render()}});
+render();
+</script>
+
+</body>
+</html>
